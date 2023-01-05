@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.example</groupId>
+  <artifactId>SpringMVCMaven</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+    <name>SpringMVCMaven Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+<!--    配置当前工程继承于parent工程-->
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>SpringMVCMaParent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../SpringMVCMaParent/pom.xml</relativePath>
+    </parent>
+
+  <dependencies>
+<!--      依赖pojo运行 dao可传递-->
+      <!--      依赖dao运行-->
+      <dependency>
+          <groupId>org.example</groupId>
+          <artifactId>SpringMVCMaven_dao</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <finalName>SpringMVCMaven</finalName>
+    <plugins>
+      <!--tomcat启动插件-->
+      <plugin>
+        <groupId>org.opoo.maven</groupId>
+        <artifactId>tomcat9-maven-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <uriEncoding>UTF-8</uriEncoding>
+          <path>/</path>
+        </configuration>
+      </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.2</version>
+            <configuration>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+        </plugin>
+
+
+    </plugins>
+
+  </build>
+</project>

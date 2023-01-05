@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.example</groupId>
+  <artifactId>SpringMVCMaParent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SpringMVCMaParent Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+<!--  定义属性-->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+<!--    <jdbc.url>jdbc:mysql://localhost:3306/Test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;useServerPrepStmts=true</jdbc.url>-->
+    <spring.version>5.3.20</spring.version>
+    <junit.version>4.12</junit.version>
+    <mybatis-spring.version>2.1.0</mybatis-spring.version>
+    <mybatis.version>3.5.11</mybatis.version>
+  </properties>
+
+  <modules>
+    <module>../SpringMVCMaven</module>
+    <module>../SpringMVCMaven_dao</module>
+    <module>../SpringMvcMaven_pojp</module>
+  </modules>
+
+  <dependencies>
+
+    <!--springmvc-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!--    servlet-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <!--    jackson-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.14.1</version>
+    </dependency>
+
+    <!--    mysql-->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>8.0.31</version>
+    </dependency>
+    <!--    jdbc-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!--    druid数据源-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.2.15</version>
+    </dependency>
+    <!--    mybatis-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${mybatis.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${mybatis-spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+  </dependencies>
+
+<!--  定义依赖管理   提供可选择的依赖-->
+  <dependencyManagement>
+    <dependencies>
+      <!--    junit-->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <finalName>SpringMVCMaParent</finalName>
+
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+<!--        跳过测试-->
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.4</version>
+        <configuration>
+          <skipTests>false</skipTests>
+          <excludes>
+            <exclude>**/BookServiceTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+<!--  配置多环境开发-->
+  <profiles>
+<!--    开发环境-->
+    <profile>
+      <id>env_dep</id>
+      <properties>
+        <jdbc.url>jdbc:mysql://localhost:3306/Test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;useServerPrepStmts=true</jdbc.url>
+      </properties>
+    </profile>
+<!--    生产环境-->
+    <profile>
+      <id>env_pro</id>
+      <properties>
+        <jdbc.url>jdbc:mysql://localhost:3306/Test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;useServerPrepStmts=true</jdbc.url>
+      </properties>
+      <activation>
+<!--        默认启动环境-->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+<!--    测试环境-->
+    <profile>
+      <id>env_test</id>
+      <properties>
+        <jdbc.url>jdbc:mysql://localhost:3307/Test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;useServerPrepStmts=true</jdbc.url>
+      </properties>
+    </profile>
+  </profiles>
+
+<!--  配置当前工程保存在私服的位置-->
+  <distributionManagement>
+    <repository>
+      <id>yuakk-release</id>
+      <url>http://localhost:8081/repository/yuakk-release/</url>
+    </repository>
+    <snapshotRepository>
+      <id>yuakk-snapshot</id>
+      <url>http://localhost:8081/repository/yuakk-snapshot/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
